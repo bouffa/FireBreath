@@ -18,6 +18,21 @@ set (CMAKE_BACKWARDS_COMPATIBILITY 2.6)
 
 Project (FireBreath)
 
+if(COMMAND cmake_policy)
+	if(POLICY CMP0026)
+		cmake_policy(SET CMP0026 OLD)
+	endif()
+	if(POLICY CMP0020)
+		cmake_policy(SET CMP0020 OLD) # do not automatically link exes to qtmain
+	endif()
+	IF(POLICY CMP0053)
+		cmake_policy(SET CMP0053 OLD)
+	ENDIF()
+	if(POLICY CMP0054)
+		cmake_policy(SET CMP0054 OLD)
+	endif()
+endif()
+
 # Allow super-projects to disable firebreath-specific git operations.
 if(NOT FIREBREATH_AUTO_GIT)
     set(FIREBREATH_AUTO_GIT ON)
@@ -101,8 +116,7 @@ endif()
 # Common core projects -- projects that don't have any plugin specific code,
 # but are required before any plugins are loaded
 # we use an explicit binary directory here in case this file is included out-of-tree
-get_target_property(FB_SCRIPTINGCORE_LOADED ScriptingCore TYPE)
-if (NOT FB_SCRIPTINGCORE_LOADED)
+if (NOT TARGET ScriptingCore)
     add_subdirectory(${FB_SCRIPTINGCORE_SOURCE_DIR} ${FB_SCRIPTINGCORE_BUILD_DIR})
     add_subdirectory(${FB_PLUGINCORE_SOURCE_DIR} ${FB_PLUGINCORE_BUILD_DIR})
     add_subdirectory(${FB_NPAPICORE_SOURCE_DIR} ${FB_NPAPICORE_BUILD_DIR})

@@ -18,6 +18,21 @@ set (CMAKE_BACKWARDS_COMPATIBILITY 2.6)
 
 project(FireBreath_Cmake)
 
+if(COMMAND cmake_policy)
+	if(POLICY CMP0026)
+		cmake_policy(SET CMP0026 OLD)
+	endif()
+	if(POLICY CMP0020)
+		cmake_policy(SET CMP0020 OLD) # do not automatically link exes to qtmain
+	endif()
+	IF(POLICY CMP0053)
+		cmake_policy(SET CMP0053 OLD)
+	ENDIF()
+	if(POLICY CMP0054)
+		cmake_policy(SET CMP0054 OLD)
+	endif()
+endif()
+
 file (GLOB COMMON RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
     common.cmake
     CommonPluginConfig.cmake
